@@ -23,12 +23,37 @@ jobs:
         $HOME/opt/go-ipfs/ipfs init
         echo "::add-path::$HOME/opt/go-ipfs"
       timeout-minutes: 2
-    - name: Run commands
+    - name: Get the initial data
       run: |
-        echo Hello world!
+        curl -s -o ipfs-logo.png https://ipfs.io/ipfs/QmNTKe2CkWCCnwrBi2XnzYURjtJsmz4wSGrhUggPP41QHV
+    - name: Initialize IPFS
+      run: |
+        ipfs init
+    - name: Publishing a file
+      run: |
+        ipfs add ipfs-logo.png
+      timeout-minutes: 1
+    - name: Retrieving the file
+      run: |
+        ipfs get QmU8aD2WqwHhnWx1Kmx98KemH1wKVuPFG6pjuYZx7SE3TM --output out.png
+        diff -s out.png ipfs-logo.png
+      timeout-minutes: 1
+    - name: Publishing a directory
+      run: |
+        mkdir logo
+        cp ipfs-logo.png logo
+        ipfs add -r logo
+      timeout-minutes: 1
+    - name: Starting a node
+      run: |
         ipfs daemon & sleep 30
-        ipfs id
-      timeout-minutes: 5   
+        ipfs swarm peers
+      timeout-minutes: 5
+    - name: Saving data
+      run: |
+        ipfs pin add /ipfs/QmNhFJjGcMPqpuYfxL62VVB9528NXqDNMFXiqN5bgFYiZ1/its-time-for-the-permanent-web.html
+        ipfs get Qmcx3KZXdANNsYfSRU1Vu4pchM8mvYXH4N8Zwdpux57YNL -o article.html
+      timeout-minutes: 5
     - name: Summary
       run: |
         echo Bye!
