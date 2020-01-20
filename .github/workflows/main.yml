@@ -28,7 +28,7 @@ jobs:
         curl -s -o ipfs-logo.png https://ipfs.io/ipfs/QmNTKe2CkWCCnwrBi2XnzYURjtJsmz4wSGrhUggPP41QHV
     - name: Initialize IPFS
       run: |
-        ipfs init
+        ipfs init || echo "Oops... Already initialized?"
     - name: Publishing a file
       run: |
         ipfs add ipfs-logo.png
