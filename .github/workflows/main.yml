@@ -35,7 +35,7 @@ jobs:
       timeout-minutes: 1
     - name: Retrieving the file
       run: |
-        ipfs get QmU8aD2WqwHhnWx1Kmx98KemH1wKVuPFG6pjuYZx7SE3TM --output out.png
+        ipfs get QmNTKe2CkWCCnwrBi2XnzYURjtJsmz4wSGrhUggPP41QHV --output out.png
         diff -s out.png ipfs-logo.png
       timeout-minutes: 1
     - name: Publishing a directory
